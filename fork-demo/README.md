@@ -1,0 +1,3 @@
+**Understanding `fork()`**: `fork()` makes a full copy of the state machine. The new state machine gets a return value of 0, and the caller gets the child’s PID. Processes in the operating system run in parallel. The exact behavior of a program is not obvious, and a model checker can help us understand it.
+
+In this example we also find that the number of lines printed by `./a.out` differs from the count from `./a.out | wc -l`. Following the principle that the machine is always right, we can form a hypothesis (libc buffering effects), test it, and compare the `strace` system call sequences to explain the cause. You can control standard I/O buffering with `setbuf(3)` and `stdbuf(1)`.
