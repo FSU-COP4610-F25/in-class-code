@@ -1,0 +1,1 @@
+VDSO: There are some "mysterious" mappings in a process's address space—of course, if you read the documentation or ask AI, their secrets will be revealed. "Read-only" system calls can be implemented by sharing pages with the operating system. VDSO is the mechanism that enables this.

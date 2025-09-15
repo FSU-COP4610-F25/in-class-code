@@ -1,0 +1,1 @@
+Speed Gear: By "hijacking" time-related functions or system calls, such as gettimeofday used in toybox.h, we can manually manipulate the application's clock. However, note that real-world applications access time in various ways, such as setting alarms or receiving clock events from the window manager.

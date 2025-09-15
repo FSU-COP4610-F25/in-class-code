@@ -1,0 +1,1 @@
+**Key Simulation Tool**：Implementing a key simulation tool does not require invading a process's address space. Since the operating system manages I/O devices, we can simply simulate key press events. Of course, we can also inject key events into a process, similar to how game modifiers work.

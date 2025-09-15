@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+#
+# An expect script to spawn ./typer, then auto-send space
+# sudo apt-get update
+# sudo apt-get install expect
+
+
+spawn ./typer
+
+sleep 2
+
+set i 0
+while {$i < 2000} {
+    send " "
+    incr i
+    sleep 0.001
+}
+interact
