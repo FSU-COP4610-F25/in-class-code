@@ -1,7 +1,6 @@
 #include <stdio.h>  
 #include <stdlib.h> 
 #include <string.h> 
-#include "minilib.h"
 
 int foo(char *str)
 {
@@ -24,5 +23,3 @@ int main(int argc, char **argv)
     printf("Returned Properly\n");
     return 1;
 }
-
-
