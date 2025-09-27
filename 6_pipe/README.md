@@ -1,1 +1,1 @@
-**UNIX 管道**：UNIX 管道 (pipe) 是一种典型的进程间通信机制，允许数据在不同的进程之间单向流动。管道可以被视为一种特殊的文件，其中一个进程将数据写入管道的一端，而另一个进程从另一端读取数据。
+**UNIX Pipe**: A UNIX pipe is a classic inter-process communication mechanism that lets data flow in one direction between processes. You can think of a pipe as a special file. One process writes data to one end of the pipe, and another process reads it from the other end.
