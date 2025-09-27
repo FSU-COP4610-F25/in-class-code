@@ -3,7 +3,7 @@
 #include <string.h> 
 #include "minilib.h"
 
-int bof(char *str)
+int foo(char *str)
 {
     char buffer[100];
     strcpy(buffer, str);
@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     badfile = fopen("badfile", "r");
     fread(str, sizeof(char), 300, badfile);   
 
-    bof(str);
+    foo(str);
 
     printf("Returned Properly\n");
     return 1;
