@@ -1,1 +1,20 @@
-**Shebang**: 在 UNIX 的早期，为了能更方便地将脚本作为可执行文件，实现了 `#!` 开头的 “可执行文件”，并沿用至今。Shebang 会调用第一行中执行的命令和参数，并把这个脚本文件作为命令行参数传入。
+**Shebang**: In early UNIX, the #! shebang was introduced to make scripts easy to run as executables, and it is still used today. The shebang invokes the command and arguments specified on the first line and passes the script file as a command-line argument
+
+
+## Demo 1
+```bash
+./h
+./p
+```
+
+## Demo 2
+```bash
+./A
+./A 1 2 3 4 5 6
+```
+
+## Demo 3
+```bash
+./good
+./good 1 2 3 4 5
+```
