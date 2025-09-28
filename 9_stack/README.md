@@ -6,7 +6,7 @@ This directory contains a simple stack overflow example program (`stack.c`) and 
 ## Files
 
 ### stack.c
-This C program contains a function `bof(char *str)` which copies data into a vulnerable buffer (size 100 bytes) using `strcpy`. The function `main()` reads 300 bytes from `badfile` and then calls `bof(str)`.
+This C program contains a function `foo(char *str)` which copies data into a vulnerable buffer (size 100 bytes) using `strcpy`. The function `main()` reads 300 bytes from `badfile` and then calls `foo(str)`.
 
 ### exploit.py
 This Python script generates a malicious file named `badfile` containing:
@@ -50,6 +50,7 @@ gdb ./stack
 ```
 
 ### 2. Set a Breakpoint and Run
+Since we are running in a containerized environment (like Codespaces), we cannot disable ASLR system-wide by changing kernel parameters. Therefore, we must disable it within GDB for the current process only.
 ```gdb
 (gdb) set disable-randomization on
 (gdb) b foo
@@ -66,7 +67,7 @@ The last command shows the bytes between buffer and rbp, helping calculate the c
 
 ### 4. Examine Memory Before Overwrites
 ```gdb
-(gdb) x/160b ((char*)&buffer - 8)
+(gdb) x/160xb ((char*)&buffer - 8)
 ```
 
 ### 5. Step Through Instructions
@@ -80,8 +81,8 @@ The last command shows the bytes between buffer and rbp, helping calculate the c
 
 ### 6. Examine Memory After Overwrites
 ```gdb
-(gdb) x/160b ((char*)&buffer - 8)
-(gdb) x/300b ((char*)&buffer + 144)
+(gdb) x/160xb ((char*)&buffer - 8)
+(gdb) x/300xb ((char*)&buffer + 144)
 ```
 
 ### 7. Continue Execution
