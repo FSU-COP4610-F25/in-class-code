@@ -20,3 +20,8 @@ gcc -S foo.c
 gcc -c foo.c
 readelf -a foo.o
 ```
+
+## Demo 4
+```bash
+./hello
+```
