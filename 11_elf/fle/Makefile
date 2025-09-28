@@ -15,12 +15,13 @@ hello: $(OBJS) tools
 
 # fle.py is all the binutils!
 tools:
-	@ln -f -s ../fle.py cc
-	@ln -f -s ../fle.py ld
-	@ln -f -s ../fle.py exec
-	@ln -f -s ../fle.py objdump
-	@ln -f -s ../fle.py readfle
-	@ln -f -s ../fle.py nm
+	@chmod +x fle.py
+	@ln -f -s fle.py cc
+	@ln -f -s fle.py ld
+	@ln -f -s fle.py exec
+	@ln -f -s fle.py objdump
+	@ln -f -s fle.py readfle
+	@ln -f -s fle.py nm
 
 clean:
 	rm -f $(OBJS) $(SRCS:.c=.fle) cc ld exec exec objdump readfle nm hello

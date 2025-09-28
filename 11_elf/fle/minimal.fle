@@ -3,7 +3,7 @@
 {
     "type": ".exe",
     "symbols": {
-        "_start": 15
+        "_start": 14
     },
     ".load": [
         "🔢: ff ff ff ff ff ff ff",
