@@ -28,7 +28,7 @@ make compile
 
 Note: Older versions of GCC might also need `-m32` or other flags depending on your environment.
 
-### Generate the Exploit Payload
+### Generate the Exploit Payload (badfile)
 ```bash
 python3 exploit.py
 ```
@@ -63,7 +63,15 @@ Since we are running in a containerized environment (like Codespaces), we cannot
 (gdb) p/x $rbp               # Current base pointer
 (gdb) p/d $rbp - (long)&buffer
 ```
+
 The last command shows the bytes between buffer and rbp, helping calculate the correct return address offset.
+
+
+Update the "buffer_start_addr" in the exploit.py and run the exploit.py script to generate new badfile. You can directly run the python script in gdb.
+
+```bash
+!python3 exploit.py
+```
 
 ### 4. Examine Memory Before Overwrites
 ```gdb
@@ -92,7 +100,11 @@ The last command shows the bytes between buffer and rbp, helping calculate the c
 
 ## Further Tips
 
+
 ### Adjust Offsets
 If the shell doesn't appear, carefully adjust:
 - The return address offset from the start of the buffer
 - The location that your overwritten return address points to (within the NOP sled or directly at your shellcode)
+- In our Codespace we cannot turn off address randomization system-wide, so we can only disable it inside the process. On the first run, when the program hits the badfile, the return address may not match the one in the badfile. This happens because the process still started with ASLR enabled before your code disabled it.
+
+Run the program a second time after the in-process setting takes effect. Check the bad return address again. You will see that the return address now matches your pointer, and it stays stable across runs.
