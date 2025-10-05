@@ -1,0 +1,1 @@
+Debugging a “tiny program.” We return to the “simplest” example from when we learned C. With OS knowledge, we can now debug every detail. From assembly instructions to system calls, we can observe all interactions between the program, the processor, and the operating system.
