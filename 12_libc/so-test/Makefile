@@ -1,20 +1,15 @@
-CC := gcc
-CFLAGS := -fPIC -O2 -Wall -Wextra
-
 LIB := libbloat.so
 
-all: bloat
+all: libbloat.so bloat
 
-$(LIB): bloat.o
-	$(CC) -shared -Wl,-soname,$(LIB) -o $@ $^
+libbloat.so: bloat.c
+	gcc -shared -o $@ $^
 
-bloat: main.o $(LIB)
-	$(CC) -o $@ main.o -L. -lbloat -Wl,-rpath,'$$ORIGIN'
-
-run: bloat
-	LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH ./bloat
+bloat: main.o
+	gcc -o $@ $^ -L. -lbloat
 
 clean:
-	rm -f *.o $(LIB) bloat
+	rm -f *.o libbloat.so bloat
 
-.PHONY: all run clean
+run:
+.PHONY: all clean
