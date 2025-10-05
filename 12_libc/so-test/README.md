@@ -1,1 +1,11 @@
-**共享库测试**：我们启动 100 个代码为 100M 的函数，通过观察系统中的内存占用来测试多个独立启动的进程是否只保留一份共享库的代码副本。
+# Shared Library Test
+
+Launch 100 instances of a function whose code size is 100 MB. Observe system memory usage to test whether multiple independently started processes keep only one copy of the shared library’s code.
+
+```bash
+make
+./bloat
+./run
+ps ax
+```
+
