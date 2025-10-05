@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 // Dynamically linked.
-void bloat();
+void bloat(); 
 
 int main() {
     bloat();
