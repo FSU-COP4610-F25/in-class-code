@@ -1,0 +1,2 @@
+**Peterson’s algorithm**: A model checker lets us explore variants of Peterson’s algorithm. We can change the execution order of statements and other details, then get fast feedback from the checker. With that feedback we can understand the algorithm’s principles more quickly and more clearly. However, on relaxed memory models Peterson’s algorithm is both inefficient and hard to implement. Implementing mutual exclusion with plain loads and stores is not the right direction.
+
