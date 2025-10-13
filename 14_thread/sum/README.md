@@ -1,0 +1,1 @@
+**Concurrency 1 + 1:** If two threads each execute `sum++` for `N` times, what result do we get? Even if we force `sum++` to be a single assembly instruction, the final result may still not be `2N`. Implementing concurrency control on shared memory is hard.
