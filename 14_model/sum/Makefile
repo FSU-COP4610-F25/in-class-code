@@ -1,6 +1,6 @@
 all: sum
 
-CFLAGS := -I$(TLIB_PATH)
+CFLAGS := -I.
 
 sum: sum.c Makefile
 	gcc $(CFLAGS) -o $@ $<

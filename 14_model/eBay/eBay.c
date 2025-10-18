@@ -2,7 +2,7 @@
 
 unsigned long balance = 100;
 
-void Alipay_withdraw(int amount) {
+void eBay_withdraw(int amount) {
     if (balance >= amount) {
         // Bugs may only manifest on specific timings. Sometimes
         // we reproduce bugs by inserting sleep()s.
@@ -13,13 +13,13 @@ void Alipay_withdraw(int amount) {
     }
 }
 
-void T_alipay() {
-    Alipay_withdraw(100);
+void T_eBay() {
+    eBay_withdraw(100);
 }
 
 int main() {
-    spawn(T_alipay);
-    spawn(T_alipay);
+    spawn(T_eBay);
+    spawn(T_eBay);
     join();
     printf("balance = %lu\n", balance);
 }
