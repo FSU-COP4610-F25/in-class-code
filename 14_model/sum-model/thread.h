@@ -56,6 +56,10 @@ void create(void *fn) {
 }
 #define spawn create
 
+static inline void thread_reset() {
+    n_ = 0;
+}
+
 // Wait until all threads return.
 static inline
 void join() {

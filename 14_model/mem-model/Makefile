@@ -1,4 +1,4 @@
-CFLAGS := -O2 -g -I$(TLIB_PATH)
+CFLAGS := -O2 -g -I.
 
 SRCS := $(wildcard *.c)
 OBJS := $(SRCS:.c=)

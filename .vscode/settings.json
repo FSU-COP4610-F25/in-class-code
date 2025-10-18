@@ -2,6 +2,8 @@
     "files.associations": {
         "types.h": "c",
         "stdio.h": "c",
-        "minilib.h": "c"
+        "minilib.h": "c",
+        "thread.h": "c",
+        "unistd.h": "c"
     }
 }
