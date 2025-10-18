@@ -10,8 +10,8 @@ int main() {
     spawn(inc_x);
     spawn(inc_y);
     while (1) {
-        printf("\033[2J\033[H");
-        printf("x = %d, y = %d", x, y);
+        // printf("\033[2J\033[H");
+        printf("x = %d, y = %d\n", x, y);
         fflush(stdout);
         usleep(100000);
     }
