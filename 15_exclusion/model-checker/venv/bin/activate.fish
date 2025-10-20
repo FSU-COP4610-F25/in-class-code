@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /workspaces/in-class-code/14_model/model-checker/venv
+set -gx VIRTUAL_ENV /workspaces/in-class-code/15_exclusion/model-checker/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
