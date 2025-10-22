@@ -75,6 +75,6 @@ void T_B() {
 }
 
 int main() {
-    create(T_A);
-    create(T_B);
+    spawn(T_A);
+    spawn(T_B);
 }

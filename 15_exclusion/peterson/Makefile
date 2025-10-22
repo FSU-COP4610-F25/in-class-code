@@ -1,6 +1,6 @@
 all: peterson
 
-CFLAGS := -I$(TLIB_PATH) -O2
+CFLAGS := -I. -O2
 
 peterson: peterson.c Makefile
 	gcc $(CFLAGS) -o $@ $<
