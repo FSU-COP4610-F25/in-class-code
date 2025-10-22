@@ -1,28 +1,32 @@
-#include "thread.h"
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#define N 100000000
+#define N 100000000L
 
-long sum = 0;
+static long sum = 0;
 
-void T_sum() {
-    for (int i = 0; i < N; i++) {
+static void* T_sum(void *arg) {
+    (void)arg;
+    for (long i = 0; i < N; i++) {
+        // Not atomic. Two threads race on sum.
         sum++;
-
-        // Won't work even if we force a single-instruction
-        // increment.
-
-        // asm volatile(
-        //     "incq %0" : "+m"(sum)
-        // );
+        // Even a single-instruction INC is not enough without atomic semantics.
+        // asm volatile("incq %0" : "+m"(sum));
     }
+    return NULL;
 }
 
-int main() {
-    spawn(T_sum);
-    spawn(T_sum);
+int main(void) {
+    pthread_t t1, t2;
 
-    join();
+    if (pthread_create(&t1, NULL, T_sum, NULL) != 0) { perror("pthread_create"); return 1; }
+    if (pthread_create(&t2, NULL, T_sum, NULL) != 0) { perror("pthread_create"); return 1; }
+
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
 
     printf("sum = %ld\n", sum);
-    printf("2*n = %ld\n", 2L * N);
+    printf("2*N = %ld\n", 2L * N);
+    return 0;
 }
