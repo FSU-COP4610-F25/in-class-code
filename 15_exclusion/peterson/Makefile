@@ -1,9 +1,8 @@
-all: peterson
+all: peterson 
+CFLAGS := -I. -O2 
 
-CFLAGS := -I. -O2
-
-peterson: peterson.c Makefile
+peterson: peterson.c Makefile 
 	gcc $(CFLAGS) -o $@ $<
 
-clean:
+clean: 
 	rm -f peterson
