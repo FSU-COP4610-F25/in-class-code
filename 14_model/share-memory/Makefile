@@ -1,8 +1,8 @@
-all: sm
+all: shm
 
-sm: sm.c
-	gcc sm.c -o sm
+shm: shm.c
+	gcc shm.c -o shm
 
 clean:
-	rm -f sm
+	rm -f shm
 
