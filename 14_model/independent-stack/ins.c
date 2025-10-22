@@ -1,4 +1,3 @@
-// probe_pthread.c
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
