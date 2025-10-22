@@ -1,0 +1,1 @@
+**Memory Model**: When we simplify the understanding of a multiprocessor as a state machine model, we often assume that one processor executes one instruction at a time. However, due to the combined effects of dynamic instruction scheduling and caching, the actual behavior of a program may deviate from our expectations.
