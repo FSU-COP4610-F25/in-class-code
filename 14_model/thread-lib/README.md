@@ -1,2 +1,17 @@
-**Minimal Thread Library:** In this minimal library we wrap POSIX threads and provide thread-management APIs. `spawn(fn)` creates a new thread that runs function `fn`. `join()` waits for all running threads to finish. With these two APIs we can use the system’s multiprocessor resources. Threads can be scheduled on different processors to run in parallel.
+Here you go — short and simple.
+
+# README
+
+## What this program does
+
+* Starts two POSIX threads: `Ta` prints `a`, `Tb` prints `b`.
+* Output order is nondeterministic because both threads run concurrently.
+* Stop with `Ctrl+C`.
+
+## Build and run
+
+```bash
+make
+./ab
+```
 

@@ -1,5 +1,7 @@
-hello: hello.c
-	gcc -I. -o $@ $<
+all: ab
+
+ab: ab.c
+	gcc ab.c -o ab
 
 clean:
-	rm -f hello
+	rm -f ab
