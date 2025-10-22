@@ -1,30 +1,30 @@
-#include "thread.h"
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#define N 100000000
+#define N 1000000
+long x = 0;
 
-long sum = 0;
 
-void T_sum() {
-    for (int i = 0; i < N; i++) {
-        // "Lock" prefix is available for most arithmetic or
-        // logical operations with a memory operand.
-        //
-        // asm volatile(
-        //     "lock incq %0" : "+m"(sum)
-        // );
-
-        asm volatile(
-            "lock addq $1, %0" : "+m"(sum)
-        );
+void *Tsum(void *arg) {
+    for (int i = 0; i < N; i++) { 
+        asm volatile("lock addq $1, %0": "+m"(x)); 
     }
+    return NULL;
 }
 
 int main() {
-    create(T_sum);
-    create(T_sum);
+    pthread_t thread1, thread2;
 
-    join();
 
-    printf("sum = %ld\n", sum);
-    printf("2*n = %ld\n", 2L * N);
+    pthread_create(&thread1, NULL, Tsum, NULL);
+    pthread_create(&thread2, NULL, Tsum, NULL);
+
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+
+
+    printf("x = %ld\n", x);
+
+    return 0;
 }

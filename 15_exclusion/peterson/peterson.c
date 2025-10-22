@@ -1,5 +1,8 @@
-#include <thread.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <assert.h>
 #include <stdatomic.h>
+#include <unistd.h>
 
 #define A 1
 #define B 2
@@ -8,44 +11,32 @@
 // without seeing it fail, we cannot be certain that we have
 // inserted sufficient barriers. Understanding the correctness
 // of this code is far beyond the scope of this course.
-// 
+//
+// Try commenting/uncommenting the BARRIER line below to see the effect.
 #define BARRIER __sync_synchronize()
-//
-// Peterson's algorithm is wrong without proper barriers:
-//
 // #undef  BARRIER
 // #define BARRIER
 
 atomic_int inside;
-long count;
+long count = 0;
 
 void critical_section() {
-    // We expect this thread executing code exclusively,
-    // if the critical section is correctly implemented.
- 
-    assert(
-        // assert(inside == 0);
-        // inside++
-        atomic_fetch_add(&inside, +1) == 0
-    );
+    // We expect mutual exclusion: only one thread can enter.
+    assert(atomic_fetch_add(&inside, +1) == 0);
 
-    // On some machines, printing a character will hide
-    // the bug!
+    // Simulate some work in the critical section.
+    // Uncomment below if you want to visualize activity.
     // putchar('.');
 
-    assert(
-        // assert(inside == 1);
-        // inside--
-        atomic_fetch_add(&inside, -1) == 1
-    );
+    assert(atomic_fetch_add(&inside, -1) == 1);
 }
 
-int volatile a = 0, b = 0, turn;
+volatile int a = 0, b = 0, turn;
 
-void T_A() {
+void* T_A(void* arg) {
     while (1) {
         a = 1;                    BARRIER;
-        turn = B;                 BARRIER; // <- this is critcal for x86
+        turn = B;                 BARRIER;
         while (1) {
             if (!b) break;        BARRIER;
             if (turn != B) break; BARRIER;
@@ -56,9 +47,10 @@ void T_A() {
 
         a = 0;                    BARRIER;
     }
+    return NULL;
 }
 
-void T_B() {
+void* T_B(void* arg) {
     while (1) {
         b = 1;                    BARRIER;
         turn = A;                 BARRIER;
@@ -72,9 +64,19 @@ void T_B() {
 
         b = 0;                    BARRIER;
     }
+    return NULL;
 }
 
 int main() {
-    spawn(T_A);
-    spawn(T_B);
+    pthread_t tA, tB;
+
+    atomic_init(&inside, 0);
+
+    pthread_create(&tA, NULL, T_A, NULL);
+    pthread_create(&tB, NULL, T_B, NULL);
+
+    pthread_join(tA, NULL);
+    pthread_join(tB, NULL);
+
+    return 0;
 }

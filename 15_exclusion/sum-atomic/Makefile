@@ -1,9 +1,10 @@
+.PHONY: all clean FORCE
 all: sum
 
-CFLAGS := -O2 -I.
+sum: sum.c FORCE
+	gcc sum.c -o sum
 
-sum: sum.c Makefile
-	gcc $(CFLAGS) -o $@ $<
+FORCE:
 
 clean:
 	rm -f sum

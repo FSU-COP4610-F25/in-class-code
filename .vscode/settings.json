@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "minilib.h": "c",
         "thread.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "pthread.h": "c"
     }
 }
