@@ -1,4 +1,4 @@
-CFLAGS := -O2 -I$(TLIB_PATH)
+CFLAGS := -O2 -I.
 
 all: main.c sum-spin.c sum-mutex.c sum-atomic.c
 	gcc $(CFLAGS) -o atomic sum-atomic.c main.c
