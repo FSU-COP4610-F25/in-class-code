@@ -1,9 +1,10 @@
-all: eBay
+.PHONY: all clean FORCE
+all: ebay
 
-CFLAGS := -O1 -g -I.
+ebay: ebay.c FORCE
+	gcc ebay.c -o ebay
 
-alipay: eBay.c
-	gcc $(CFLAGS) -o $@ $<
+FORCE:
 
 clean:
-	rm -f eBay
+	rm -f ebay
