@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 100000000L
+#define N 100000000
 
 static long sum = 0;
 
@@ -10,9 +10,9 @@ static void* T_sum(void *arg) {
     (void)arg;
     for (long i = 0; i < N; i++) {
         // Not atomic. Two threads race on sum.
-        sum++;
+        // sum++;
         // Even a single-instruction INC is not enough without atomic semantics.
-        // asm volatile("incq %0" : "+m"(sum));
+        asm volatile("addq $1, %0": "+m"(sum));
     }
     return NULL;
 }

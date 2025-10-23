@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define N 4
+#define N 2
 
 // Each thread writes only its own slot
 static volatile char *low[N];
