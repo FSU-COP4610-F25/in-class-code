@@ -108,21 +108,22 @@ clean-venv:
 .PHONY: default run postmsg serve serve-fg open stop install clean clean-venv
 
 # Run the collector pipeline with the same Python as the build
-collect: $(STAMP)
-	$(PY) mosaic.py sum.py | $(PY) collect.py
-	@echo "Collected. If you expected HTML, run: make (build) then make serve"
-
 GRAPH := .mosaic.json
 
-list: $(STAMP)
-	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
-	$(PY) collect.py --list < $(GRAPH)
+# Require the prebuilt graph; if missing, print a hint
+_require-graph:
+	@if [ ! -f "$(GRAPH)" ]; then \
+		echo "Missing $(GRAPH). Run: make list to generate it."; \
+		exit 1; \
+	fi
 
-count: $(STAMP)
-	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
+witness: $(STAMP) _require-graph
+	@if [ -z "$(TARGET)" ]; then echo "Usage: make witness TARGET='sum = 3'"; exit 1; fi
+	$(PY) collect.py --list --target "$(TARGET)" < $(GRAPH)
+
+count: $(STAMP) _require-graph
 	$(PY) count_bounded.py --K $${K:-200} < $(GRAPH)
 
-witness: $(STAMP)
-	@if [ -z "$(TARGET)" ]; then echo "Usage: make witness TARGET='sum = 3'"; exit 1; fi
-	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
-	$(PY) collect_witness.py --target "$(TARGET)" < $(GRAPH)
+sample: $(STAMP) _require-graph
+	$(PY) sample_outputs.py --runs $${RUNS:-5000} --max-steps $${STEPS:-200} < $(GRAPH)
+
