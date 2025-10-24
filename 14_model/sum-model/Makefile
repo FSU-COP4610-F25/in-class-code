@@ -106,3 +106,17 @@ clean-venv:
 	rm -rf $(VENV_DIR)
 
 .PHONY: default run postmsg serve serve-fg open stop install clean clean-venv
+
+# Run the collector pipeline with the same Python as the build
+collect: $(STAMP)
+	$(PY) mosaic.py sum.py | $(PY) collect.py
+	@echo "Collected. If you expected HTML, run: make (build) then make serve"
+
+# List all distinct outputs from the full exploration
+list: $(STAMP)
+	$(PY) mosaic.py --check $(INPUT) | $(PY) collect.py --list
+
+# Show a witness path for a target output
+witness: $(STAMP)
+	@if [ -z "$(TARGET)" ]; then echo "Usage: make witness TARGET='sum = 3'"; exit 1; fi
+	$(PY) mosaic.py --check $(INPUT) | $(PY) collect.py --target "$(TARGET)"
