@@ -107,8 +107,19 @@ clean-venv:
 
 .PHONY: default run postmsg serve serve-fg open stop install clean clean-venv
 
-# Run the collector pipeline with the same Python as the build
+# Reuse the graph file produced once by `make list`
 GRAPH := .mosaic.json
+
+# Generate the graph once and list distinct outputs
+list: $(STAMP)
+	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
+	$(PY) collect.py --list < $(GRAPH)
+	@echo ""
+	@echo "Graph saved to $(GRAPH)."
+	@echo "Next:"
+	@echo "  make witness TARGET='sum = 3'   # show one path to an output"
+	@echo "  make count K=200                # bounded path counting"
+	@echo "  make sample RUNS=10000          # Monte Carlo sampling"
 
 # Require the prebuilt graph; if missing, print a hint
 _require-graph:
@@ -117,13 +128,29 @@ _require-graph:
 		exit 1; \
 	fi
 
+# Show one witness path for a target output
 witness: $(STAMP) _require-graph
 	@if [ -z "$(TARGET)" ]; then echo "Usage: make witness TARGET='sum = 3'"; exit 1; fi
 	$(PY) collect.py --list --target "$(TARGET)" < $(GRAPH)
 
+# Bounded walk counting (works even if the graph has cycles)
 count: $(STAMP) _require-graph
 	$(PY) count_bounded.py --K $${K:-200} < $(GRAPH)
 
+# Monte Carlo sampling to estimate output probabilities
 sample: $(STAMP) _require-graph
 	$(PY) sample_outputs.py --runs $${RUNS:-5000} --max-steps $${STEPS:-200} < $(GRAPH)
 
+# Clean only the generated graph
+clean-graph:
+	rm -f $(GRAPH)
+
+# Short help for students
+help:
+	@echo "make            # build HTML and show next steps (your default)"
+	@echo "make list       # generate $(GRAPH) and list distinct outputs"
+	@echo "make witness TARGET='sum = 3'   # print one path to that output"
+	@echo "make count K=200                # count walks up to K steps"
+	@echo "make sample RUNS=10000          # sample outputs via MC"
+	@echo "make serve                     # start local HTTP server"
+	@echo "make stop                      # stop the server"
