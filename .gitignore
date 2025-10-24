@@ -58,3 +58,4 @@ dkms.conf
 .venv/
 __pycache__/
 *.pyc
+14_model/sum-model/my_graph.html
