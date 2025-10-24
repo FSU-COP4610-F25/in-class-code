@@ -59,3 +59,4 @@ dkms.conf
 __pycache__/
 *.pyc
 14_model/sum-model/my_graph.html
+14_model/sum-model/.mosaic.json

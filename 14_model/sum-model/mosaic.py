@@ -497,4 +497,7 @@ if __name__ == '__main__':
     #   mosaic --run foo.py | grep stdout | tail -n 1  # quick and dirty check
     #   mosaic --check bar.py | fx  # or any other interactive visualizer
     #
-    print(json.dumps(explored, ensure_ascii=False, indent=2))
+    try:
+        print(json.dumps(explored, ensure_ascii=False, indent=2))
+    except BrokenPipeError:
+        pass

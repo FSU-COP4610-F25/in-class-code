@@ -112,11 +112,17 @@ collect: $(STAMP)
 	$(PY) mosaic.py sum.py | $(PY) collect.py
 	@echo "Collected. If you expected HTML, run: make (build) then make serve"
 
-# List all distinct outputs from the full exploration
-list: $(STAMP)
-	$(PY) mosaic.py --check $(INPUT) | $(PY) collect.py --list
+GRAPH := .mosaic.json
 
-# Show a witness path for a target output
+list: $(STAMP)
+	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
+	$(PY) collect.py --list < $(GRAPH)
+
+count: $(STAMP)
+	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
+	$(PY) count_bounded.py --K $${K:-200} < $(GRAPH)
+
 witness: $(STAMP)
 	@if [ -z "$(TARGET)" ]; then echo "Usage: make witness TARGET='sum = 3'"; exit 1; fi
-	$(PY) mosaic.py --check $(INPUT) | $(PY) collect.py --target "$(TARGET)"
+	$(PY) $(MOSAIC) --check $(INPUT) > $(GRAPH)
+	$(PY) collect_witness.py --target "$(TARGET)" < $(GRAPH)
