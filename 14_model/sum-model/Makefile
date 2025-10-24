@@ -14,8 +14,8 @@ FIXED_PORT?= 8000
 
 STAMP     := $(VENV_DIR)/.deps-installed
 
-# --- default ---
-default: run
+# --- default: always print guidance even if nothing is rebuilt ---
+default: run postmsg
 
 # Create venv (fallback: show hint if venv module missing)
 $(VENV_DIR):
@@ -41,6 +41,21 @@ $(OUT): $(MOSAIC) $(INPUT) $(VIS_MAIN) $(STAMP)
 
 run: $(OUT)
 
+# Always-printed guidance after `make`
+postmsg:
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1) Run:    make serve"
+	@echo "  2) In Codespaces, open the Ports panel, find the forwarded port,"
+	@echo "     right-click it, choose 'Open in Browser', click my_graph.html."
+	@echo "  3) You will see the model checker state transitions in the page."
+	@echo ""
+	@echo "Useful commands:"
+	@echo "  make serve     # start a background server and print the URL"
+	@echo "  make serve-fg  # start a foreground server on port $(FIXED_PORT)"
+	@echo "  make open      # try to open the browser via 'gp url' if available"
+	@echo "  make stop      # stop the background server"
+
 # Serve on a random free port in background; print a clickable URL
 serve: $(OUT) $(STAMP)
 	@PORT=$$($(PY) -c 'import socket; s=socket.socket(); s.bind(("",0)); p=s.getsockname()[1]; s.close(); print(p)'); \
@@ -48,7 +63,22 @@ serve: $(OUT) $(STAMP)
 	$(PY) -m http.server $$PORT --bind 0.0.0.0 >/dev/null 2>&1 & echo $$! > .server.pid; \
 	echo "Serving in background"; \
 	echo "URL: http://localhost:$$PORT/$(OUT)"; \
+	echo "Open the Ports panel, right-click this port, choose 'Open in Browser'."; \
 	echo "Run 'make stop' to stop."
+
+# Try to open browser using Codespaces CLI (gp). Falls back to printing URL.
+open:
+	@if [ ! -f .server.port ]; then \
+		echo "No running server. Run: make serve"; exit 1; \
+	fi
+	@PORT=$$(cat .server.port); \
+	if command -v gp >/dev/null 2>&1; then \
+		URL=$$(gp url $$PORT); \
+		echo "Opening: $$URL/$(OUT)"; \
+		gp preview "$$URL/$(OUT)"; \
+	else \
+		echo "Open this URL in your browser: http://localhost:$$PORT/$(OUT)"; \
+	fi
 
 # Serve on a fixed port in foreground (Ctrl+C to stop)
 serve-fg: $(OUT) $(STAMP)
@@ -75,4 +105,4 @@ clean:
 clean-venv:
 	rm -rf $(VENV_DIR)
 
-.PHONY: default run serve serve-fg stop install clean clean-venv
+.PHONY: default run postmsg serve serve-fg open stop install clean clean-venv
