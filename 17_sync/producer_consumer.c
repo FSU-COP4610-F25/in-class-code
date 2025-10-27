@@ -1,19 +1,19 @@
 /*
  * How to run this program:
  *
- * 1. Save this code to a file named 'ex_1_producer_consumer.c'.
+ * 1. Save this code to a file named producer_consumer.c'.
  * 2. Open a terminal and navigate to the directory where the file is saved.
  * 3. Compile the program using the following command:
- *    gcc ex_1_producer_consumer.c
+ *    gcc producer_consumer.c
  * 
  * 4. Run the program with an argument that represents the buffer size (n), for example:
- *    ./a.out 1
+ *    ./producer_consumer 1
  *    This sets the buffer size to 1.
  *    Or you can run it with a larger buffer size, for example:
- *    ./a.out 32
+ *    ./producer_consumer 32
  *
  * 5. To check the result using a pipe and an external Python script (checker.py):
- *    ./a.out 2 | python3 pc_checker.py 2
+ *    ./producer_consumer 2 | python3 pc_checker.py 2
  *    Here, '2' is the buffer size passed to both the C program and the Python checker.
  */
 
