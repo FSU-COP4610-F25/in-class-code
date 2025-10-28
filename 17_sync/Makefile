@@ -9,7 +9,7 @@ PROGRAMS := condition_variables \
             semaphore \
             semaphore_no_mutex \
             producer_consumer \
-            single_condition_variable
+            condition_variable_deadlock
 
 SRCS := $(addsuffix .c,$(PROGRAMS))
 OBJS := $(SRCS:.c=.o)
