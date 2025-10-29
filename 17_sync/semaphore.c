@@ -1,10 +1,10 @@
 /*
  * How to run this program:
  *
- * 1. Save this code to a file named 'ex_1_producer_consumer.c'.
+ * 1. Save this code to a file named 'semaphore.c'.
  * 2. Open a terminal and navigate to the directory where the file is saved.
  * 3. Compile the program using the following command:
- *    gcc ex_4_semaphore.c
+ *    gcc semaphore.c
  * 
  * 4. Run the program with an argument that represents the buffer size (n), for example:
  *    ./a.out 1
