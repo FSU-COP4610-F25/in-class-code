@@ -23,7 +23,7 @@ Steps to compile and run this code:
 
 
 
-#include "include/thread.h"
+#include "thread.h"
 #include <math.h>
 
 int NT;
