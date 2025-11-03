@@ -1,0 +1,1 @@
+**Symlink Game**: We can use symbolic links to create an “almost arbitrary” directory layout, including any graph structure (a state machine), and the OS will resolve it correctly. The OS mechanisms—system calls and the file system—give us unlimited room for creativity.
