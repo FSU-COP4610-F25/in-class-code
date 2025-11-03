@@ -1,1 +1,1 @@
-**ThreadSanitizer**: 通过寻找是否存在没有 happens-before 关系的不同线程、同一变量、至少一个是写的内存访问 (数据竞争)。这也称为 happens-before race。同时，TSAN 也不是万能的：触发 happens-before race 依然可能需要特定的线程调度。
+**ThreadSanitizer**: It detects data races by finding accesses to the same variable from different threads that have no happens-before relationship, with at least one access being a write. This is called a happens-before race. TSAN is not a silver bullet; exposing such races may still require particular thread schedules.

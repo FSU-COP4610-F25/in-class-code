@@ -1,4 +1,4 @@
-CFLAGS := -O2 -g -I$(TLIB_PATH) -fsanitize=thread
+CFLAGS := -O2 -g -I. -fsanitize=thread
 
 race: race.c Makefile
 	gcc $(CFLAGS) -o $@ $<
