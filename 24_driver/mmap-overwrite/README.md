@@ -1,0 +1,1 @@
+**mmap behavior**: What happens if we map more memory than the file size? As more mechanisms are added to an operating system, such as `mmap` and `fork`, their interactions can produce unexpected surprises, which is a major challenge for OS designers.
