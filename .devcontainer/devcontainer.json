@@ -1,8 +1,13 @@
 {
   "name": "OS In-Class Code",
   "image": "mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04",
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y build-essential gdb make python3 python3-pip python3-venv file python3-numpy python3-matplotlib python3-scipy && python3 -c \"import numpy, matplotlib; print('numpy+matplotlib ok')\"",
+
+  "postCreateCommand": "/bin/bash -lc '\nset -euo pipefail\napt-get update\napt-get install -y build-essential gdb make python3 python3-pip python3-venv file python3-numpy python3-matplotlib python3-scipy\nH=$(uname -r)\n# Try to install matching kernel headers/modules-extra\nif [ ! -e \"/lib/modules/$H/build\" ]; then\n  echo \"[info] Installing kernel headers for $H\"\n  apt-get install -y linux-headers-$H linux-modules-extra-$H || true\nfi\n# Final check\nif [ -e \"/lib/modules/$H/build\" ]; then\n  echo \"[ok] Kernel headers present at /lib/modules/$H/build\"\nelse\n  echo \"[warn] Kernel headers for $H not found. You can build user-space only here. Build kernel modules on a VM with matching headers.\"\nfi\npython3 - <<PY\nimport numpy, matplotlib; print(\"numpy+matplotlib ok\")\nPY\n'",
+
+  "postStartCommand": "/bin/bash -lc '\nH=$(uname -r)\nif [ ! -e \"/lib/modules/$H/build\" ]; then\n  echo \"[warn] No /lib/modules/$H/build in this session. Trying to install headers...\"\n  sudo apt-get update && sudo apt-get install -y linux-headers-$H linux-modules-extra-$H || true\n  if [ -e \"/lib/modules/$H/build\" ]; then\n    echo \"[ok] Headers are now available.\"\n  else\n    echo \"[warn] Still missing headers for $H. You can only build user-space here.\"\n  fi\nfi\n'",
+
   "remoteEnv": { "MPLBACKEND": "Agg" },
+
   "customizations": {
     "vscode": {
       "extensions": [
