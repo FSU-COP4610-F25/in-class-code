@@ -1,34 +1,19 @@
-# Makefile
+# Set the name of the kernel module
 obj-m := driver.o
 
-KDIR ?= /lib/modules/$(shell uname -r)/build
-PWD  := $(shell pwd)
+# Set the path to the kernel source directory
+KERNEL_SRC := /lib/modules/$(shell uname -r)/build
 
-# Detect headers
-HAVE_KDIR := $(wildcard $(KDIR)/Makefile)
+# Set the current working directory
+PWD := $(shell pwd)
 
-all: info user $(if $(HAVE_KDIR),kmod,)
-
-info:
-	@echo "Kernel: $(shell uname -r)"
-	@if [ -z "$(HAVE_KDIR)" ]; then \
-	  echo ">>> Kernel headers NOT found at $(KDIR)"; \
-	  echo ">>> Will build user program only (launch)."; \
-	  echo ">>> Build kernel module requires linux-headers-$(shell uname -r)."; \
-	else \
-	  echo ">>> Found kernel headers at $(KDIR)"; \
-	fi
-
-kmod:
-	$(MAKE) -C $(KDIR) M=$(PWD) modules
-
-user:
+# Default target to build the kernel module
+all:
+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
 	gcc -static $(CFLAGS) -o launch user.c
 
+# Target to clean the build artifacts
 clean:
-	@if [ -n "$(HAVE_KDIR)" ]; then \
-	  $(MAKE) -C $(KDIR) M=$(PWD) clean; \
-	fi
-	$(RM) launch
+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
 
-.PHONY: all info kmod user clean
+.PHONY: all clean
