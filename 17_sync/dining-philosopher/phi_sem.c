@@ -13,7 +13,7 @@ void Tphilosopher(int id) {
 
     while (1) {
         // Come to table
-        // P(&table);
+        P(&table);
 
         P(&avail[lhs]);
         printf("+ %d by T%d\n", lhs, id);
@@ -29,7 +29,7 @@ void Tphilosopher(int id) {
         V(&avail[rhs]);
 
         // Leave table
-        // V(&table);
+        V(&table);
     }
 }
 
