@@ -47,7 +47,7 @@ book_drop:
     description: Dr. Liu helps you pick it up. "Careful. That is a classic resource."
     next: friendly_chat
   2:
-    description: Dr. Liu gestures kindly for you to continue, then resumes grading
+    description: Dr. Liu gestures kindly for you to continue, then resumes grading.
     next: embarrassed
 
 friendly_chat:
