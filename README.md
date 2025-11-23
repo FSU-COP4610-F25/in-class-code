@@ -1,6 +1,19 @@
 # COP4610 In-Class Code (FSU)
 
+<p align="center">
+  <a href="https://special-space-fishstick-6944wp4g4wwhrr94.github.dev/">
+    <img
+      src="https://img.shields.io/badge/CLICK%20THIS%20TO%20OPEN-COP4610%20GitHub%20Codespace-0078D4?style=for-the-badge&logo=github&logoColor=white"
+      alt="CLICK THIS TO OPEN COP4610 GITHUB CODESPACE"
+      width="1600"
+      height="160"
+    >
+  </a>
+</p>
+
+
 This repository provides lecture code and small runnable examples for **FSU COP4610: Operating Systems**. It is used in class to demonstrate core OS concepts with short, focused programs in C and Linux.
+
 
 ## Purpose
 - Support live demos during lectures.
