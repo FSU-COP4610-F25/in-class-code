@@ -80,6 +80,7 @@ static ssize_t launcher_write(struct file *file, const char __user *buf, size_t 
 
     copy_from_user(databuf, buf, count);
     if (strncmp(databuf, "\x01\x14\x05\x14", 4) == 0) {
+        printk("nuke: correct password entered.\n");
         const char *EXPLODE[] = {
           "    ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣀⣀⠀⠀⣀⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
           "    ⠀⠀⠀⣀⣠⣤⣤⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣶⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀",
