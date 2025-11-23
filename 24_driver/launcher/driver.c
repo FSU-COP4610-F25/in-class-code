@@ -73,13 +73,16 @@ static ssize_t launcher_read(struct file *file, char __user *buf, size_t count, 
 }
 
 static ssize_t launcher_write(struct file *file, const char __user *buf, size_t count, loff_t *offset) {
-    char databuf[4] = "\0\0\0\0";
-    if (count > 4) {
-        count = 4;
+    cchar databuf[16] = {0};
+    if (count >= sizeof(databuf)) {
+            count = sizeof(databuf) - 1;
+        }
+    
+    if (copy_from_user(databuf, buf, count)) {
+        return -EFAULT;
     }
 
-    copy_from_user(databuf, buf, count);
-    if (strncmp(databuf, "\x01\x14\x05\x14", 4) == 0) {
+    if (strncmp(databuf, "COP1640", 7) == 0) {
         printk("nuke: correct password entered.\n");
         const char *EXPLODE[] = {
           "    ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣀⣀⠀⠀⣀⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",

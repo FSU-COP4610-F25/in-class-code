@@ -6,6 +6,7 @@
         "thread.h": "c",
         "unistd.h": "c",
         "pthread.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "chrono": "c"
     }
 }
