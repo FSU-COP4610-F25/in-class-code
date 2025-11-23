@@ -5,6 +5,7 @@
 #include <linux/device.h>
 #include <linux/fs.h>
 #include <linux/uaccess.h>
+#include <linux/version.h>
 
 #define NUM_DEV 2
 
@@ -36,7 +37,15 @@ static int __init launcher_init(void) {
     dev_major = MAJOR(dev);
 
     // create class
-    launcher_class = class_create(THIS_MODULE, "nuke");
+    #if LINUX_VERSION_CODE < KERNEL_VERSION(6, 4, 0)
+        launcher_class = class_create(THIS_MODULE, "nuke");
+    #else
+        launcher_class = class_create("nuke");
+    #endif
+    if (IS_ERR(launcher_class)) {
+      unregister_chrdev(dev_major, "nuke");
+      return PTR_ERR(launcher_class);
+    }
     cdev.owner = THIS_MODULE;
 
     for (i = 0; i < NUM_DEV; i++) {
@@ -74,17 +83,8 @@ static ssize_t launcher_read(struct file *file, char __user *buf, size_t count, 
 
 static ssize_t launcher_write(struct file *file, const char __user *buf, size_t count, loff_t *offset) {
     char databuf[16] = {0};
-    if (count >= sizeof(databuf)) {
-            count = sizeof(databuf) - 1;
-        }
-    
-    if (copy_from_user(databuf, buf, count)) {
-        return -EFAULT;
-    }
-
-    if (strncmp(databuf, "COP1640", 7) == 0) {
-        printk("nuke: correct password entered.\n");
-        const char *EXPLODE[] = {
+    int i;
+    static const char *EXPLODE[] = {
           "    ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣀⣀⠀⠀⣀⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
           "    ⠀⠀⠀⣀⣠⣤⣤⣾⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣶⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀",
           "    ⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀",
@@ -101,7 +101,18 @@ static ssize_t launcher_write(struct file *file, const char __user *buf, size_t 
           "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
           "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         };
-        int i;
+
+    if (count >= sizeof(databuf)) {
+            count = sizeof(databuf) - 1;
+        }
+    
+    if (copy_from_user(databuf, buf, count)) {
+        return -EFAULT;
+    }
+
+    if (strncmp(databuf, "COP4610", 7) == 0) {
+        printk("nuke: correct password entered.\n");
+        
 
         for (i = 0; i < sizeof(EXPLODE) / sizeof(EXPLODE[0]); i++) {
           printk("\033[01;31m%s\033[0m\n", EXPLODE[i]);
