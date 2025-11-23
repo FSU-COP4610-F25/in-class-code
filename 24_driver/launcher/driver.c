@@ -73,7 +73,7 @@ static ssize_t launcher_read(struct file *file, char __user *buf, size_t count, 
 }
 
 static ssize_t launcher_write(struct file *file, const char __user *buf, size_t count, loff_t *offset) {
-    cchar databuf[16] = {0};
+    char databuf[16] = {0};
     if (count >= sizeof(databuf)) {
             count = sizeof(databuf) - 1;
         }
