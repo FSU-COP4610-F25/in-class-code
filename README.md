@@ -1,7 +1,7 @@
 # COP4610 In-Class Code (FSU)
 
 <p align="center">
-  <a href="https://special-space-fishstick-6944wp4g4wwhrr94.github.dev/" target="_blank">
+  <a href="https://codespaces.new/OWNER/REPO" target="_blank">
     <img
       src="https://img.shields.io/badge/CLICK%20THIS%20TO%20OPEN-COP4610%20GitHub%20Codespace-0078D4?style=for-the-badge&logo=github&logoColor=white"
       alt="CLICK THIS TO OPEN COP4610 GITHUB CODESPACE"
@@ -10,6 +10,7 @@
     >
   </a>
 </p>
+
 
 
 
